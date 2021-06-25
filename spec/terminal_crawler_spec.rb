@@ -7,7 +7,6 @@ RSpec.describe TerminalCrawler do
     profile_links = crawler.get_profile_links
     expect(profile_links).to be_an Array
     expect(profile_links.first).to be_a Mechanize::Page::Link
-
-    require 'pry'; binding.pry
+    expect(profile_links.first.href).to eq("/alumni/675-ben-lee")
   end
 end

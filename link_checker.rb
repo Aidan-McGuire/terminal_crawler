@@ -11,7 +11,6 @@ class TerminalCrawler
   
   def get_links
     profiles = @agent.page.links_with(:text => "\n                See full profile\n                \n")
-    require 'pry'; binding.pry
   end
 
   def check_status(profile)

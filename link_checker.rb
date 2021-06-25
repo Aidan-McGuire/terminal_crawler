@@ -1,5 +1,3 @@
-# require 'nokogiri'
-# require 'open-uri'
 require 'mechanize'
 
 class TerminalCrawler
@@ -14,11 +12,15 @@ class TerminalCrawler
   end
 
   def check_status(profile)
-    profile.links_with(:text => "\n          Launch the App\n").find_all do |link|
-      link.click.code.to_i >= 400
+    exceptions = [Mechanize::ResponseCodeError, Net::HTTP::Persistent::Error]
+    broken_profiles = []
+    profile.click.links_with(:text => "\n          Launch the App\n").find_all do |link|
+      begin
+        link.click
+      rescue *exceptions
+        broken_profiles << [profile, link]
+      end
     end
+    broken_profiles
   end
 end
-
-crawler = TerminalCrawler.new
-crawler.get_links

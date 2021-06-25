@@ -3,15 +3,15 @@
 require 'mechanize'
 
 class TerminalCrawler
-
   def initialize
-    @url = 'https://terminal.turing.edu'
+    url = 'https://terminal.turing.edu'
     @agent = Mechanize.new
-    @page = @agent.get(@url)
+    @agent.get(url)
   end
   
   def get_links
     profiles = @agent.page.links_with(:text => "\n                See full profile\n                \n")
+    require 'pry'; binding.pry
   end
 
   def check_status(profile)
@@ -20,3 +20,6 @@ class TerminalCrawler
     end
   end
 end
+
+crawler = TerminalCrawler.new
+crawler.get_links

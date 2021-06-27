@@ -11,8 +11,8 @@ class TerminalCrawler
   end
   
   def get_profiles_with_bad_links
-    broken = get_profile_links.first(5).map do |link|
-      check_status(link)
+    broken = get_profile_links.first(5).map do |profile_link|
+      check_status(profile_link)
     end
     broken.reject { |i| i.empty? }
   end
@@ -27,7 +27,7 @@ class TerminalCrawler
       begin
         link.click
       rescue *@exceptions
-        broken_profiles << [profile, link]
+        broken_profiles << [profile.uri.to_s, link.uri.to_s]
       end
     end
     broken_profiles

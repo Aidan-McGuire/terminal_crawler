@@ -20,6 +20,6 @@ RSpec.describe TerminalCrawler, :vcr do
     
     actual = @crawler.check_status(profile)
     
-    expect(actual).to eq([["/alumni/292-noah-gibson", "timberlineincsantafe.com"]])
+    expect(actual).to eq([["mailto:noah.gibson99@gmail.com", "/alumni/292-noah-gibson", "timberlineincsantafe.com"]])
   end
 end

@@ -28,7 +28,8 @@ class TerminalCrawler
       begin
         link.click
       rescue *@exceptions
-        broken_profiles << [link_to_profile.uri.to_s, link.uri.to_s]
+        email = profile.link_with(:text => "\n        Email Directly\n").uri.to_s
+        broken_profiles << [email, link_to_profile.uri.to_s, link.uri.to_s]
       end
     end
     broken_profiles

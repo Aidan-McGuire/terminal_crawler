@@ -21,13 +21,14 @@ class TerminalCrawler
     profiles = @mechanize.page.links_with(:text => @see_profile_text)
   end
   
-  def check_status(profile)
+  def check_status(link_to_profile)
     broken_profiles = []
-    profile.click.links_with(:text => @launch_app_text).find_all do |link|
+    profile = link_to_profile.click
+    profile.links_with(:text => @launch_app_text).find_all do |link|
       begin
         link.click
       rescue *@exceptions
-        broken_profiles << [profile.uri.to_s, link.uri.to_s]
+        broken_profiles << [link_to_profile.uri.to_s, link.uri.to_s]
       end
     end
     broken_profiles

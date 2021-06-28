@@ -13,7 +13,7 @@ class TerminalCrawler
   
   def get_profiles_with_bad_links
     counter = 1
-    broken = get_profile_links.first(60).map do |profile_link|
+    broken = get_profile_links.map do |profile_link|
       check_status(profile_link)
       profile_counter(counter); counter += 1
     end

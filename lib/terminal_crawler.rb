@@ -31,7 +31,7 @@ class TerminalCrawler
       begin
         link.click
       rescue *@exceptions
-        email = profile.link_with(:text => @email_text).uri.to_s
+        email = profile.link_with(:text => @email_text).uri.to_s.split(":").pop
         profile_uri = link_to_profile.uri.to_s
         bad_link = link.uri.to_s
         broken_profiles << [email, profile_uri, bad_link]

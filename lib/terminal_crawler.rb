@@ -12,10 +12,10 @@ class TerminalCrawler
   end
   
   def get_profiles_with_bad_links
-    counter = 0
+    counter = 1
     broken = get_profile_links.first(60).map do |profile_link|
       check_status(profile_link)
-      p "#{counter += 1} profiles checked"
+      profile_counter(counter); counter += 1
     end
     broken.reject { |i| i.empty? }
   end
@@ -38,5 +38,10 @@ class TerminalCrawler
       end
     end
     broken_profiles
+  end
+
+  def profile_counter(counter)
+    return p "#{counter} profile checked" if counter <= 1
+    return p "#{counter} profiles checked" if counter > 1
   end
 end

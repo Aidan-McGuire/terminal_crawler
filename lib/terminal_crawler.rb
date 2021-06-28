@@ -7,12 +7,15 @@ class TerminalCrawler
     @mechanize.get(url)
     @see_profile_text = "\n                See full profile\n                \n"
     @launch_app_text = "\n          Launch the App\n"
+    @email_text = "\n        Email Directly\n"
     @exceptions = [Mechanize::ResponseCodeError, Net::HTTP::Persistent::Error]
   end
   
   def get_profiles_with_bad_links
-    broken = get_profile_links.first(5).map do |profile_link|
+    counter = 0
+    broken = get_profile_links.first(60).map do |profile_link|
       check_status(profile_link)
+      p "#{counter += 1} profiles checked"
     end
     broken.reject { |i| i.empty? }
   end
@@ -28,8 +31,10 @@ class TerminalCrawler
       begin
         link.click
       rescue *@exceptions
-        email = profile.link_with(:text => "\n        Email Directly\n").uri.to_s
-        broken_profiles << [email, link_to_profile.uri.to_s, link.uri.to_s]
+        email = profile.link_with(:text => @email_text).uri.to_s
+        profile_uri = link_to_profile.uri.to_s
+        bad_link = link.uri.to_s
+        broken_profiles << [email, profile_uri, bad_link]
       end
     end
     broken_profiles

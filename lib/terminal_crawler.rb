@@ -13,9 +13,9 @@ class TerminalCrawler
   
   def get_profiles_with_bad_links
     counter = 1
-    broken = get_profile_links.first(60).map do |profile_link|
-      check_status(profile_link)
+    broken = get_profile_links.map do |profile_link|
       profile_counter(counter); counter += 1
+      check_status(profile_link)
     end
     broken.reject { |i| i.empty? }
   end
@@ -25,7 +25,7 @@ class TerminalCrawler
   end
   
   def check_status(link_to_profile)
-    broken_profiles = []
+    broken_profiles = Hash.new { |hash, key| hash[key] = [] }
     profile = link_to_profile.click
     profile.links_with(:text => @launch_app_text).find_all do |link|
       begin
@@ -34,7 +34,7 @@ class TerminalCrawler
         email = profile.link_with(:text => @email_text).uri.to_s.split(":").pop
         profile_uri = link_to_profile.uri.to_s
         bad_link = link.uri.to_s
-        broken_profiles << [email, profile_uri, bad_link]
+        broken_profiles[email] << bad_link
       end
     end
     broken_profiles

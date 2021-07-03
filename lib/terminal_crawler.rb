@@ -1,4 +1,5 @@
 require 'mechanize'
+require 'pry'
 
 class TerminalCrawler
   def initialize

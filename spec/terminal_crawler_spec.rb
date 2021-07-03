@@ -20,6 +20,15 @@ RSpec.describe TerminalCrawler, :vcr do
     
     actual = @crawler.check_status(profile)
     
-    expect(actual).to eq([["mailto:noah.gibson99@gmail.com", "/alumni/292-noah-gibson", "timberlineincsantafe.com"]])
+    expect(actual).to eq({"noah.gibson99@gmail.com"=>["timberlineincsantafe.com"]})
+  end
+
+  it 'does not return profiles with no broken links' do
+    profile_links = @crawler.get_profile_links
+    profile = profile_links[0]
+    
+    actual = @crawler.check_status(profile)
+    
+    expect(actual).to eq({})
   end
 end

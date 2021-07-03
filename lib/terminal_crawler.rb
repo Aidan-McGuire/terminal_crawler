@@ -16,12 +16,10 @@ class TerminalCrawler
   def get_profiles_with_bad_links
     total_number_of_profiles = get_profile_links.count
     progress_bar = ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
-    counter = 1
-    broken = get_profile_links.map do |profile_link|
+    get_profile_links.map do |profile_link|
       progress_bar.increment!
-      check_status(profile_link)
-    end
-    broken.reject { |i| i.empty? }
+      check_status(profile_link) if check_status(profile_link).any?
+    end.compact
   end
   
   def get_profile_links

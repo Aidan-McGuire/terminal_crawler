@@ -1,5 +1,6 @@
 require 'mechanize'
 require 'pry'
+require 'progress_bar'
 
 class TerminalCrawler
   def initialize
@@ -13,9 +14,12 @@ class TerminalCrawler
   end
   
   def get_profiles_with_bad_links
+    total_number_of_profiles = get_profile_links.count
+    progress_bar = ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
     counter = 1
     broken = get_profile_links.map do |profile_link|
-      profile_counter(counter); counter += 1
+      # profile_counter(counter); counter += 1
+      progress_bar.increment!
       check_status(profile_link)
     end
     broken.reject { |i| i.empty? }

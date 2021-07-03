@@ -20,6 +20,7 @@ class TerminalCrawler
       progress_bar.increment!
       check_status(profile_link) if check_status(profile_link).any?
     end.compact
+
   end
   
   def get_profile_links

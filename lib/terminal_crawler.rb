@@ -18,7 +18,6 @@ class TerminalCrawler
     progress_bar = ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
     counter = 1
     broken = get_profile_links.map do |profile_link|
-      # profile_counter(counter); counter += 1
       progress_bar.increment!
       check_status(profile_link)
     end
@@ -42,10 +41,5 @@ class TerminalCrawler
       end
     end
     broken_profiles
-  end
-
-  def profile_counter(counter)
-    return p "#{counter} profile checked" if counter <= 1
-    return p "#{counter} profiles checked" if counter > 1
   end
 end

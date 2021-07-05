@@ -1,6 +1,7 @@
 require 'mechanize'
 require 'pry'
 require 'progress_bar'
+require 'thread'
 
 class TerminalCrawler
   def initialize
@@ -20,7 +21,6 @@ class TerminalCrawler
       progress_bar.increment!
       check_status(profile_link) if check_status(profile_link).any?
     end.compact
-
   end
   
   def get_profile_links

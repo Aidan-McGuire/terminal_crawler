@@ -16,7 +16,7 @@ class TerminalCrawler
 
     def get_profiles_with_bad_links
     total_number_of_profiles = get_profile_links.count
-    ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
+    progress_bar = ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
     broken = get_profile_links.map do |profile_link|
       progress_bar.increment!
       check_status(profile_link)
@@ -25,7 +25,7 @@ class TerminalCrawler
   end
   
   def get_profile_links
-    profiles = @mechanize.page.links_with(:text => @see_profile_text)
+    @mechanize.page.links_with(:text => @see_profile_text)
   end
   
   def check_status(link_to_profile)

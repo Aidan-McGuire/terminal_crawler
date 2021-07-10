@@ -13,14 +13,15 @@ class TerminalCrawler
     @email_text = "\n        Email Directly\n"
     @exceptions = [Mechanize::ResponseCodeError, Net::HTTP::Persistent::Error]
   end
-  
-  def get_profiles_with_bad_links
+
+    def get_profiles_with_bad_links
     total_number_of_profiles = get_profile_links.count
-    progress_bar = ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
-    get_profile_links.map do |profile_link|
+    ProgressBar.new(total_number_of_profiles, :bar, :counter, :elapsed)
+    broken = get_profile_links.map do |profile_link|
       progress_bar.increment!
-      check_status(profile_link) if check_status(profile_link).any?
-    end.compact
+      check_status(profile_link)
+    end
+    broken.reject { |i| i.empty? }
   end
   
   def get_profile_links

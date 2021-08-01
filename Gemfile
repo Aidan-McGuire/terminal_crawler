@@ -4,6 +4,7 @@ ruby '3.0.0'
 
 gem "mechanize"
 gem "progress_bar"
+gem "parallel"
 
 group :development, :test do
   gem "pry"

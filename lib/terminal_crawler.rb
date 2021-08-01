@@ -24,8 +24,9 @@ class TerminalCrawler
         alum_email_element = profile.css('a:contains("Email Directly")')
         email = alum_email_element.first['href'].split(':').last
         profile_content[email] = project_links
-        sleep(5)
+        sleep(2)
       end
+      profile_content
     end
   end
 end

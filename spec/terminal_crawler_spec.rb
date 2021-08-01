@@ -27,7 +27,7 @@ RSpec.describe TerminalCrawler, :vcr do
     end
   end
 
-  context 'check project links' do
+  context 'retrieve broken project links' do
     it 'returns all broken links with associated email addresses' do
       broken_links = TerminalCrawler.retrieve_broken_profiles
 

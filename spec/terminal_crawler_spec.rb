@@ -26,4 +26,12 @@ RSpec.describe TerminalCrawler, :vcr do
         ])
     end
   end
+
+  context 'check project links' do
+    it 'returns all broken links with associated email addresses' do
+      broken_links = TerminalCrawler.retrieve_broken_profiles
+
+      expect(broken_links.count.zero?).to eq(false)
+    end
+  end
 end

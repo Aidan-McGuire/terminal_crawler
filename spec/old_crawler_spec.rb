@@ -1,7 +1,7 @@
 require './spec/spec_helper'
-require './lib/terminal_crawler'
+require './lib/old_crawler'
 
-RSpec.describe TerminalCrawler, :vcr do
+RSpec.describe OldCrawler, :vcr do
   before(:each) do
     @crawler = TerminalCrawler.new
   end

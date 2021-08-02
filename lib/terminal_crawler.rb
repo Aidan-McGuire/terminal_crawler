@@ -317,6 +317,16 @@ class TerminalCrawler
       end
       broken_profiles
     end
+
+    def add_protocol(links)
+      new_links = links.map do |link|
+        if link.include?('http')
+          link.undump
+        else
+          link = "http://" + link.undump
+        end
+      end
+    end
   end
 end
 

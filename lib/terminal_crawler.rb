@@ -300,7 +300,6 @@ class TerminalCrawler
       check2 = check_links(links)
 
       broken_links = check1 & check2
-      require 'pry'; binding.pry
     end
 
     def check_links(links)
@@ -311,6 +310,10 @@ class TerminalCrawler
           Nokogiri::HTML(URI.open(link))
         rescue SocketError
           broken_profiles << link
+        rescue OpenURI::HTTPError => redirect
+          require 'pry'; binding.pry
+          new_uri = redirect.uri.to_s
+          Nokogiri::HTML(URI.open(new_uri, redirect: false))
         rescue *exceptions
           broken_profiles << link
         end
@@ -329,4 +332,3 @@ class TerminalCrawler
     end
   end
 end
-

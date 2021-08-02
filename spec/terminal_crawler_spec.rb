@@ -34,4 +34,12 @@ RSpec.describe TerminalCrawler, :vcr do
       expect(broken_links.count.zero?).to eq(false)
     end
   end
+
+  context 'add_protocol' do
+    it 'appends http to beginning of url if protocol not present' do
+      tricky_links = %w["chesspedition.herokuapp.com" "leahlamarr.com" "http://sweater-weather-1.surge.sh" "https://book-club-project.herokuapp.com"]
+
+      expect(TerminalCrawler.add_protocol(tricky_links)).to eq(["http://chesspedition.herokuapp.com", "http://leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"])
+    end
+  end
 end

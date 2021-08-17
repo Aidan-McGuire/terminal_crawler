@@ -59,13 +59,6 @@ RSpec.describe TerminalCrawler, :vcr do
   end
 
   context 'sanitize(links)' do
-    it 'appends http to beginning of url if protocol not present' do
-      tricky_links = ["chesspedition.herokuapp.com", "leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"]
-
-
-      expect(TerminalCrawler.sanitize(tricky_links)).to eq(["http://chesspedition.herokuapp.com", "http://leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"])
-    end
-
     it 'removes extra whitespace' do
       poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com "]
 

@@ -60,8 +60,10 @@ class TerminalCrawler
     def sanitize(links)
       new_links = links.map do |link|
         link.strip!
-        if link.include?('http')
+        if link.include?('https')
           link
+        elsif link.include?('http')
+          link.gsub('http', 'https')
         else
           link = "https://" + link
         end

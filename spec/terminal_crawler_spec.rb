@@ -35,17 +35,6 @@ RSpec.describe TerminalCrawler, :vcr do
     end
   end
 
-  context 'retrieve broken project links' do
-    it 'returns all broken links' do
-      profiles_json = File.read('support/example.json')
-      profiles = JSON.parse(profiles_json)
-
-      broken_links = TerminalCrawler.retrieve_broken_profiles(profiles)
-
-      expect(broken_links.count.zero?).to eq(false)
-    end
-  end
-
   context 'check links' do
     it 'returns broken project links' do
       links = ["http://chesspedition.herokuapp.com", "http://leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com", "https://sweater-weather-2102.herokuapp.com/"]
@@ -64,6 +53,12 @@ RSpec.describe TerminalCrawler, :vcr do
       expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://leahlamarr.com"])
     end
 
+    it 'replaces http with https' do
+      links = ["http://mixdup.vercel.app/", "http://leahlamarr.com"]
+
+      expect(TerminalCrawler.sanitize(links)).to eq(["https://mixdup.vercel.app/", "https://leahlamarr.com"])
+    end
+
     it 'removes extra whitespace' do
       poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com "]
 
@@ -71,3 +66,4 @@ RSpec.describe TerminalCrawler, :vcr do
     end
   end
 end
+

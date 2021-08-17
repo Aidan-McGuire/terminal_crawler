@@ -1,9 +1,10 @@
 require './spec/spec_helper'
 require './lib/terminal_crawler'
+require 'json'
 
 RSpec.describe TerminalCrawler, :vcr do
   context 'retrieve profile links' do
-    it 'return an array of links to all alumni profiles' do
+    it 'returns an array of links to all alumni profiles' do
       links = TerminalCrawler.retrieve_profile_links
       expect(links).to be_an Array
       expect(links.count).to eq(121)
@@ -12,8 +13,15 @@ RSpec.describe TerminalCrawler, :vcr do
   end
 
   context 'retrieve profile_content' do
-    it 'return an array of links to all alumni profiles with alumni emails' do
-      content = TerminalCrawler.retrieve_profile_content
+    it 'return a hash of links to all alumni profiles with alumni emails' do
+      links = [
+        "/alumni/675-ben-lee", "/alumni/284-mason-france", "/alumni/328-paul-schlattmann",
+        "/alumni/175-victor-abraham", "/alumni/292-noah-gibson", "/alumni/539-jessie-le-ho",
+        "/alumni/683-colin-kiyoshi-koga", "/alumni/396-fred-rondina", "/alumni/849-aidan-mcguire-lester"
+              ]
+
+      content = TerminalCrawler.retrieve_profile_content(links)
+
       expect(content).to be_a Hash
       expect(content["bendelonlee@gmail.com"]).to eq([
         "https://glass-planner-frontend-git-demo-bendelonlee.vercel.app/",
@@ -29,7 +37,10 @@ RSpec.describe TerminalCrawler, :vcr do
 
   context 'retrieve broken project links' do
     it 'returns all broken links' do
-      broken_links = TerminalCrawler.retrieve_broken_profiles
+      profiles_json = File.read('support/example.json')
+      profiles = JSON.parse(profiles_json)
+
+      broken_links = TerminalCrawler.retrieve_broken_profiles(profiles)
 
       expect(broken_links.count.zero?).to eq(false)
     end
@@ -54,7 +65,7 @@ RSpec.describe TerminalCrawler, :vcr do
     end
 
     it 'removes extra whitespace' do
-      poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com"]
+      poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com "]
 
       expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://leahlamarr.com"])
     end

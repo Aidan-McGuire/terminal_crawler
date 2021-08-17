@@ -50,7 +50,11 @@ class TerminalCrawler
           Nokogiri::HTML(URI.open(link))
         rescue SocketError
           broken_profiles << link
-        rescue *exceptions
+        rescue *exceptions => e
+          if e.message == "308 Permanent Redirect" 
+            link.gsub!('http', 'https')
+            retry
+          end
           broken_profiles << link
         end
       end
@@ -60,12 +64,10 @@ class TerminalCrawler
     def sanitize(links)
       new_links = links.map do |link|
         link.strip!
-        if link.include?('https')
+        if link.include?('http')
           link
-        elsif link.include?('http')
-          link.gsub('http', 'https')
         else
-          link = "https://" + link
+          link = "http://" + link
         end
       end
     end

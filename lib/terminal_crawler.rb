@@ -15,7 +15,6 @@ class TerminalCrawler
 
     def retrieve_profile_content(profile_links)
       profile_content = Hash.new { |hash, key| hash[key] = [] }
-      # profile_links = retrieve_profile_links
       profile_links.each do |link|
         profile = Nokogiri::HTML(URI.open("https://terminal.turing.edu#{link}"))
         elements = profile.css('a:contains("Launch the App")')
@@ -33,7 +32,6 @@ class TerminalCrawler
     end
 
     def retrieve_broken_profiles(project_links)
-      # project_links = retrieve_profile_content
       links = project_links.values.flatten
       sanitized_links = sanitize(links)
       check1 = check_links(sanitized_links)
@@ -62,7 +60,7 @@ class TerminalCrawler
     end
 
     def sanitize(links)
-      new_links = links.map do |link|
+      links.map do |link|
         link.strip!
       end
     end

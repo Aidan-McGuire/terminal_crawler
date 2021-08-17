@@ -39,7 +39,6 @@ class TerminalCrawler
       check2 = check_links(sanitized_links)
 
       broken_links = check1 & check2
-      require 'pry'; binding.pry
     end
 
     def check_links(links)

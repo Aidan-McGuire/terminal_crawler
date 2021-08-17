@@ -43,11 +43,20 @@ RSpec.describe TerminalCrawler, :vcr do
     end
   end
 
-  context 'add_protocol' do
-    it 'appends http to beginning of url if protocol not present' do
+  context 'sanitize(links)' do
+    it 'appends https to beginning of url if protocol not present' do
       tricky_links = ["chesspedition.herokuapp.com", "leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"]
+      poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com"]
 
-      expect(TerminalCrawler.add_protocol(tricky_links)).to eq(["http://chesspedition.herokuapp.com", "http://leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"])
+
+      expect(TerminalCrawler.sanitize(tricky_links)).to eq(["https://chesspedition.herokuapp.com", "https://leahlamarr.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com", "http://sweater-weather-1.surge.sh", "https://book-club-project.herokuapp.com"])
+      expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://leahlamarr.com"])
+    end
+
+    it 'removes extra whitespace' do
+      poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com"]
+
+      expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://leahlamarr.com"])
     end
   end
 end

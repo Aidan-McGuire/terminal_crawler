@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 require 'parallel'
+require 'pry'
 
 class TerminalCrawler
   class << self
@@ -12,9 +13,9 @@ class TerminalCrawler
       end
     end
 
-    def retrieve_profile_content
+    def retrieve_profile_content(profile_links)
       profile_content = Hash.new { |hash, key| hash[key] = [] }
-      profile_links = retrieve_profile_links
+      # profile_links = retrieve_profile_links
       profile_links.each do |link|
         profile = Nokogiri::HTML(URI.open("https://terminal.turing.edu#{link}"))
         elements = profile.css('a:contains("Launch the App")')
@@ -31,13 +32,12 @@ class TerminalCrawler
       profile_content
     end
 
-    def retrieve_broken_profiles
-      project_links = retrieve_profile_content
+    def retrieve_broken_profiles(project_links)
+      # project_links = retrieve_profile_content
       links = project_links.values.flatten
       sanitized_links = sanitize(links)
       check1 = check_links(sanitized_links)
       check2 = check_links(sanitized_links)
-
       broken_links = check1 & check2
     end
 

@@ -34,7 +34,7 @@ class TerminalCrawler
     def retrieve_broken_profiles
       project_links = retrieve_profile_content
       links = project_links.values.flatten
-      sanitized_links = add_protocol(links)
+      sanitized_links = sanitize(links)
       check1 = check_links(sanitized_links)
       check2 = check_links(sanitized_links)
 
@@ -57,12 +57,13 @@ class TerminalCrawler
       broken_profiles
     end
 
-    def add_protocol(links)
+    def sanitize(links)
       new_links = links.map do |link|
+        link.strip!
         if link.include?('http')
           link
         else
-          link = "http://" + link
+          link = "https://" + link
         end
       end
     end

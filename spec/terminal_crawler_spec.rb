@@ -47,7 +47,7 @@ RSpec.describe TerminalCrawler, :vcr do
         "https://penpost-web.vercel.app/", "https://carryokay.netlify.app/songbook",
         "https://ancient-ridge-85691.herokuapp.com"
       ]
-
+      
       expect(TerminalCrawler.check_links(links)).to eq([
         "https://whosthatpokemongame.netlify.app/game", "https://ecosystem.theorem.local:3300/",
         "https://shrouded-hamlet-60350.herokuapp.com/#/", "https://dream-home-cap.herokuapp.com/",
@@ -60,9 +60,9 @@ RSpec.describe TerminalCrawler, :vcr do
 
   context 'sanitize(links)' do
     it 'removes extra whitespace' do
-      poorly_formatted_links = [" https://astro-clash.surge.sh/", "leahlamarr.com "]
+      poorly_formatted_links = [" https://astro-clash.surge.sh/"]
 
-      expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "http://leahlamarr.com"])
+      expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/"])
     end
   end
 end

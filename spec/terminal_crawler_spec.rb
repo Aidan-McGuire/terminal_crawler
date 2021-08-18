@@ -7,7 +7,6 @@ RSpec.describe TerminalCrawler, :vcr do
     it 'returns an array of links to all alumni profiles' do
       links = TerminalCrawler.retrieve_profile_links
       expect(links).to be_an Array
-      expect(links.count).to eq(123)
       expect(links.first).to eq('/alumni/675-ben-lee')
     end
   end

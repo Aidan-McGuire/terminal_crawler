@@ -14,10 +14,8 @@ RSpec.describe TerminalCrawler, :vcr do
   context 'retrieve profile_content' do
     it 'return a hash of links to all alumni profiles with alumni emails' do
       links = [
-        "/alumni/675-ben-lee", "/alumni/284-mason-france", "/alumni/328-paul-schlattmann",
-        "/alumni/175-victor-abraham", "/alumni/292-noah-gibson", "/alumni/539-jessie-le-ho",
-        "/alumni/683-colin-kiyoshi-koga", "/alumni/396-fred-rondina", "/alumni/849-aidan-mcguire-lester"
-              ]
+        "/alumni/675-ben-lee", "/alumni/849-aidan-mcguire-lester"
+        ]
 
       content = TerminalCrawler.retrieve_profile_content(links)
 

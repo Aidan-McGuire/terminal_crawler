@@ -45,13 +45,15 @@ class TerminalCrawler
       Parallel.each(links, in_threads: 5) do |link|
       # links.each do |link|
         begin
+          retries ||= 0
           Nokogiri::HTML(URI.open(link))
         rescue SocketError
           broken_profiles << link
         rescue *exceptions => e
           if e.message == "308 Permanent Redirect" 
             link.gsub!('http', 'https')
-            retry
+            sleep(1)
+            retry if (retries += 1) < 3
           end
           broken_profiles << link
         end

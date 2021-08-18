@@ -48,13 +48,13 @@ RSpec.describe TerminalCrawler, :vcr do
         "https://ancient-ridge-85691.herokuapp.com"
       ]
       
-      expect(TerminalCrawler.check_links(links)).to eq([
+      expect(TerminalCrawler.check_links(links).sort).to eq([
         "https://whosthatpokemongame.netlify.app/game", "https://ecosystem.theorem.local:3300/",
         "https://shrouded-hamlet-60350.herokuapp.com/#/", "https://dream-home-cap.herokuapp.com/",
         "https://monstronomicon.herokuapp.com/", "https://rancid-tomatillos-lm-kd.herokuapp.com/",
         "https://penpost-web.vercel.app/", "https://carryokay.netlify.app/songbook",
         "https://ancient-ridge-85691.herokuapp.com"
-      ])
+      ].sort)
     end
   end
 

@@ -5,7 +5,7 @@ require 'pry'
 
 class TerminalCrawler
   class << self
-    def retrieve_profile_links
+    def retrieve_profile_links # collect links to all profiles
       doc = Nokogiri::HTML(URI.open('https://terminal.turing.edu'))
       elements = doc.css('a:contains("See full profile")')
       profile_links = elements.map do |ele|
@@ -13,7 +13,7 @@ class TerminalCrawler
       end
     end
 
-    def retrieve_profile_content(profile_links)
+    def retrieve_profile_content(profile_links) # collect project links from each profile
       profile_content = Hash.new { |hash, key| hash[key] = [] }
       profile_links.each do |link|
         profile = Nokogiri::HTML(URI.open("https://terminal.turing.edu#{link}"))
@@ -31,11 +31,13 @@ class TerminalCrawler
       profile_content
     end
 
-    def retrieve_broken_profiles(project_links)
+    def retrieve_broken_profiles(project_links) # find all broken project links
       links = project_links.values.flatten
       sanitized_links = sanitize(links)
+      
       check1 = check_links(sanitized_links)
       check2 = check_links(sanitized_links)
+      
       broken_links = check1 & check2
     end
 
@@ -53,7 +55,7 @@ class TerminalCrawler
           if e.message == "308 Permanent Redirect" 
             link.gsub!('http', 'https')
             sleep(1)
-            retry if (retries += 1) < 3
+            retry if (retries += 1) <= 1
           end
           broken_profiles << link
         end
@@ -63,7 +65,7 @@ class TerminalCrawler
 
     def sanitize(links)
       links.map do |link|
-        link.strip!
+        link.strip
       end
     end
   end

@@ -14,6 +14,7 @@ GEM
     highline (2.0.3)
     http-cookie (1.0.4)
       domain_name (~> 0.5)
+    json (2.5.1)
     mechanize (2.8.1)
       addressable (~> 2.7)
       domain_name (~> 0.5, >= 0.5.20190701)
@@ -74,6 +75,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  json
   mechanize
   parallel
   progress_bar

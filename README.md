@@ -1,10 +1,7 @@
 # terminal_crawler
 
 
-This is a CLI screenscraper that crawls Turing School's Terminal looking for broken project links.  
-I built this app in an effort to give back to the Turing community. I plan to create a version of this app that emails the owners of the broken links to notify them; however, for the sake of those individuals inboxes that repo will be private.
-
-At the moment Turing's Terminal is host to 121 alumni profiles. The app takes quite a while to run due to the number of links to check and more importantly the number of projects hosted on free, slow to wake up, Heroku servers. Due to this limitation I have found this project to be a perfect candidate to learn and explore threading in ruby.
+Terminal Crawler provides users a CLI to scrape Turing’s Terminal site to check alumni profiles for broken project links. This is the first project that I’ve tackled outside of the Turing curriculum, which has given me an opportunity to explore topics not covered in class. At this point, I’ve created a simple app that scrapes the Terminal site and successfully identifies broken links. I recently implemented threading to significantly decrease the runtime to check all of the alumni links, and am planning on adding the option to send email notifications from this plain old Ruby project to users who have broken links in their profiles; I will likely implement threading once again to give users the ability to get back to work rather than waiting for those emails to send.
 
 Ruby Version 3.0.0
 
@@ -13,5 +10,5 @@ Ruby Version 3.0.0
 git clone git@github.com:A-McGuire/terminal_crawler.git
 cd terminal_crawler
 bundle install
-ruby lib/terminal_crawler.rb 
+ruby runner.rb 
 ```

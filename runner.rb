@@ -1,4 +1,6 @@
 require './lib/terminal_crawler.rb'
+require './lib/link_checker.rb'
+require './lib/alum_emailer.rb'
 require 'pry'
 
 profile_links = TerminalCrawler.retrieve_profile_links # collect links to all profiles

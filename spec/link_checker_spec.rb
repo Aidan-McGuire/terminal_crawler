@@ -1,6 +1,5 @@
 require './spec/spec_helper'
 require './lib/link_checker'
-require 'json'
 
 RSpec.describe LinkChecker do
   context 'check links' do

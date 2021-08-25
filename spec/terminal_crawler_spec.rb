@@ -1,6 +1,5 @@
 require './spec/spec_helper'
 require './lib/terminal_crawler'
-require 'json'
 
 RSpec.describe TerminalCrawler, :vcr do
   context 'retrieve profile links' do

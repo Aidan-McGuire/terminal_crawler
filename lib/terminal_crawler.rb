@@ -13,7 +13,7 @@ class TerminalCrawler
       end
     end
 
-    def retrieve_profile_content(profile_links) # collect project links from each profile
+    def retrieve_profile_content(profile_links) # collect project links and emails from each profile
       profile_content = Hash.new { |hash, key| hash[key] = [] }
       profile_links.each do |link|
         profile = Nokogiri::HTML(URI.open("https://terminal.turing.edu#{link}"))
@@ -33,40 +33,52 @@ class TerminalCrawler
 
     def retrieve_broken_profiles(project_links) # find all broken project links
       links = project_links.values.flatten
-      sanitized_links = sanitize(links)
+      sanitized_links = remove_whitespace(links)
       
       check1 = check_links(sanitized_links)
       check2 = check_links(sanitized_links)
-      
+
       broken_links = check1 & check2
     end
 
     def check_links(links)
       exceptions = [OpenURI::HTTPError, Errno::ECONNREFUSED, Errno::ENOENT]
-      broken_profiles = []
+      broken_links = []
       Parallel.each(links, in_threads: 5) do |link|
       # links.each do |link|
         begin
           retries ||= 0
           Nokogiri::HTML(URI.open(link))
-        rescue SocketError
-          broken_profiles << link
+        rescue SocketError # TODO: Why does this not work when included in exceptions array? 
+          broken_links << link
         rescue *exceptions => e
           if e.message == "308 Permanent Redirect" 
             link.gsub!('http', 'https')
             sleep(1)
             retry if (retries += 1) <= 1
           end
-          broken_profiles << link
+          broken_links << link
         end
       end
-      broken_profiles
+      broken_links
     end
 
-    def sanitize(links)
+    def remove_whitespace(links)
       links.map do |link|
         link.strip
       end
+    end
+
+    def retrieve_emails(broken_links, profile_content)
+      broken_profiles = Hash.new { |hash, key| hash[key] = [] }
+      broken_links.each do |broken_link|
+        profile_content.each do |email, links|
+          if !links.grep(broken_link).empty?
+            broken_profiles[email] << broken_link
+          end
+        end
+      end
+      broken_profiles
     end
   end
 end

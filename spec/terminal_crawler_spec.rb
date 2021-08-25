@@ -55,11 +55,11 @@ RSpec.describe TerminalCrawler, :vcr do
     end
   end
 
-  context 'sanitize(links)' do
+  context 'remove_whitespace(links)' do
     it 'removes extra whitespace' do
       poorly_formatted_links = [" https://astro-clash.surge.sh/", " https://astro-clash.surge.sh/  ", "https://ancient-ridge-85691.herokuapp.com"]
 
-      expect(TerminalCrawler.sanitize(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://astro-clash.surge.sh/", "https://ancient-ridge-85691.herokuapp.com"])
+      expect(TerminalCrawler.remove_whitespace(poorly_formatted_links)).to eq(["https://astro-clash.surge.sh/", "https://astro-clash.surge.sh/", "https://ancient-ridge-85691.herokuapp.com"])
     end
   end
 

@@ -33,7 +33,7 @@ class TerminalCrawler
 
     def retrieve_broken_profiles(project_links) # find all broken project links
       links = project_links.values.flatten
-      sanitized_links = sanitize(links)
+      sanitized_links = remove_whitespace(links)
       
       check1 = check_links(sanitized_links)
       check2 = check_links(sanitized_links)
@@ -49,7 +49,7 @@ class TerminalCrawler
         begin
           retries ||= 0
           Nokogiri::HTML(URI.open(link))
-        rescue SocketError
+        rescue SocketError # TODO: Why does this not work when included in exceptions array? 
           broken_links << link
         rescue *exceptions => e
           if e.message == "308 Permanent Redirect" 
@@ -63,7 +63,7 @@ class TerminalCrawler
       broken_links
     end
 
-    def sanitize(links)
+    def remove_whitespace(links)
       links.map do |link|
         link.strip
       end
